@@ -1,0 +1,196 @@
+{% extends "spectralDatabase/base.html" %}
+{% block dbChange %}
+	<a class="navbar-brand mr-4" href="{% url 'SNR:detail' pk=spectraldatabase.pk %}">
+		Spectral Database
+	</a>
+{% endblock dbChange %}
+{% block content %}
+	<h1>
+		Microphone Data Record Spectral Details
+	</h1>
+	<div class="row">
+		<div class="col">
+			Record Name: {{ object.record_Name }}
+		</div>
+	</div><br>
+	<div class="row">
+		<div class="col">
+			Record Description: {{ object.description }}
+		</div>
+	</div><br><br>
+	<h2>
+		Playback
+	</h2>
+	<div class="row">
+		<div class="col-md-6">
+			<h6>
+				True Signal:<br>
+				{{ true_Signal_File }}
+			</h6>
+		</div>
+		<div class="col-md-6">
+			<h6>
+				Measured Plain Signal:<br>
+				{{ measured_Signal_File }}
+			</h6>
+		</div>
+	</div>
+	<div class="row">
+		<div class="col-md-6">
+			Recording:<br>
+			<audio id="Player" controls>
+				<source src="/Uploads/Recordings/Original/true_Signal_File/{{ true_Signal_File }}" type="audio/wav">
+			</audio><br>
+			Harmonics:<br>
+			<audio id="Player" controls>
+				<source src="/Uploads/{{ true_Signal_Harmonics }}" type="audio/wav">
+			</audio><br>
+			Percussives:<br>
+			<audio id="Player" controls>
+				<source src="/Uploads/{{ true_Signal_Percussives }}" type="audio/wav">
+			</audio>
+		</div>
+		<div class="col-md-6">
+			Recording:<br>
+			<audio id="Player" controls>
+				<source src="/Uploads/Recordings/Original/measured_Signal_File/{{ measured_Signal_File }}" type="audio/wav">
+			</audio><br>
+			Harmonics:<br>
+			<audio id="Player" controls>
+				<source src="/Uploads/{{ measured_Signal_Harmonics }}" type="audio/wav">
+			</audio><br>
+			Percussives:<br>
+			<audio id="Player" controls>
+				<source src="/Uploads/{{ measured_Signal_Percussives }}" type="audio/wav">
+			</audio>
+		</div>
+	</div><br>
+	<div class="row">
+		<div class="col-md-6">
+			<h6>
+				Measured Noisy Signal:<br>
+				{{ noisy_Signal_File }}
+			</h6>
+		</div>
+		<div class="col-md-6">
+			<h6>
+				Measured Noise:<br>
+				{{ noise_File }}
+			</h6>
+		</div>
+	</div>
+	<div class="row">
+		<div class="col-md-6">
+			Recording:<br>
+			<audio id="Player" controls>
+				<source src="/Uploads/Recordings/Original/noisy_Signal_File/{{ noisy_Signal_File }}" type="audio/wav">
+			</audio><br>
+			Harmonics:<br>
+			<audio id="Player" controls>
+				<source src="/Uploads/{{ noisy_Signal_Harmonics }}" type="audio/wav">
+			</audio><br>
+			Percussives:<br>
+			<audio id="Player" controls>
+				<source src="/Uploads/{{ noisy_Signal_Percussives }}" type="audio/wav">
+			</audio>
+		</div>
+		<div class="col-md-6">
+			Recording:<br>
+			<audio id="Player" controls>
+				<source src="/Uploads/Recordings/Original/noise_File/{{ noise_File }}" type="audio/wav">
+			</audio><br>
+			Harmonics:<br>
+			<audio id="Player" controls>
+				<source src="/Uploads/{{ noise_Harmonics }}" type="audio/wav">
+			</audio><br>
+			Percussives:<br>
+			<audio id="Player" controls>
+				<source src="/Uploads/{{ noise_Percussives }}" type="audio/wav">
+			</audio>
+		</div>
+	</div><br>
+	<div class="row">
+		<div class="col">
+			<a href="{% url 'mic-characterization:mic-data-record-update' pk=spectraldatabase.pk %}">
+				<button class="btn btn-primary">
+					Update
+				</button>
+			</a>&nbsp;
+			<a href="{% url 'spectral:list' %}">
+				<button class="btn btn-outline-info">
+					Back
+				</button>
+			</a>&nbsp;
+			<a href="{% url 'mic-characterization:mic-data-record-confirm-delete' pk=spectraldatabase.pk %}">
+				<button class="btn btn-outline-info">
+					Delete
+				</button>
+			</a>&nbsp;
+			<a href="{% url 'spectral:detail-refreshed' pk=spectraldatabase.pk %}">
+				<button class="btn btn-outline-info">
+					Refresh
+				</button>
+			</a>
+		</div>
+	</div><br><br>
+{% endblock content %}
+{% block beneathsidebar %}
+	<h2>
+		Spectral Characteristics
+	</h2>
+	<div class="row">
+		<div class="col-md-6">
+			<center>
+				<img src="data:image/png;base64, {{ average_PSD_Graph|safe }}" class="img-fluid">
+			</center>
+		</div>
+		<div class="col-md-6">
+			<center>
+				<img src="data:image/png;base64, {{ phase_Spectrum_Graph|safe }}" class="img-fluid">
+			</center>
+		</div>
+	</div><br>
+	<div class="row">
+		<div class="col-md-6">
+			<center>
+				<img src="data:image/png;base64, {{ noise_PSD_Graph|safe }}" class="img-fluid">
+			</center>
+		</div>
+		<div class="col-md-6">
+			<center>
+				<img src="data:image/png;base64, {{ overlapping_PSD_Graph|safe }}" class="img-fluid">
+			</center>
+		</div>
+	</div><br>
+	<div class="row">
+		<div class="col">
+			<center>
+				<img src="data:image/png;base64, {{ overlapping_Harmonic_PSD_Graph|safe }}" class="img-fluid">
+			</center>
+		</div>
+	</div><br>
+	<div class="row">
+		<div class="col-md-6">
+			<center>
+				<img src="data:image/png;base64, {{ spectrogram|safe }}" class="img-fluid">
+			</center>
+		</div>
+		<div class="col-md-6">
+			<center>
+				<img src="data:image/png;base64, {{ harmonic_Prediction_Graph|safe }}" class="img-fluid">
+			</center>
+		</div>
+	</div><br>
+	<div class="row">
+		<div class="col-md-6">
+			<center>
+				<img src="data:image/png;base64, {{ percussive_Spectrogram|safe }}" class="img-fluid">
+			</center>
+		</div>
+		<div class="col-md-6">
+			<center>
+				<img src="data:image/png;base64, {{ harmonic_Spectrogram|safe }}" class="img-fluid">
+			</center>
+		</div>
+	</div><br><br>
+{% endblock beneathsidebar %}

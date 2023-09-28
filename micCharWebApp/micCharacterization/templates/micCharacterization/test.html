@@ -1,0 +1,18 @@
+{% extends "micCharacterization/base.html" %}
+{% block dbChange %}
+    <a class="navbar-brand mr-4" href="{% url 'mic-characterization:mic-data-record-list' %}">
+        Microphone Characterization Database
+    </a>
+{% endblock dbChange %}
+{% block content %}
+    <h1>
+        Test
+    </h1>
+    <div class="row">
+        <ul>
+            {% for attr, graph in temp_DB_Graphs %}
+                <li>{{ attr }}: {{ graph }}</li><br>
+            {% endfor %}
+        </ul>
+    </div><br><br>
+{% endblock content %}

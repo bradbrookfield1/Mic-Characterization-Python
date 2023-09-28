@@ -1,0 +1,55 @@
+{% extends "micCharacterization/base.html" %}
+{% block dbChange %}
+    <a class="navbar-brand mr-4" href="{% url 'mic-characterization:mic-data-record-list' %}">
+        Microphone Characterization Database
+    </a>
+{% endblock dbChange %}
+{% block content %}
+	<form method="POST" enctype="multipart/form-data">
+		{% csrf_token %}
+		<fieldset class="form-group">
+			<h1>
+				Microphone Data Record Detail Form
+			</h1><br>
+			Please convert all multi-track files to mono before uploading!<br><br>
+			<div class="row">
+				<div class="col">
+					Record Name:<br>
+					{{ form.record_Name }}
+				</div>
+			</div><br>
+			<div class="row">
+				<div class="col">
+					Record Description:<br>
+					{{ form.description }}
+				</div>
+			</div><br>
+			<div class="row">
+				<div class="col">
+					True Signal: {{ form.true_Signal_File }}<br><br>
+
+					Measured Signal: {{ form.measured_Signal_File }}<br><br>
+
+					Noisy Signal: {{ form.noisy_Signal_File }}<br><br>
+
+					Measured Noise: {{ form.noise_File }}<br>
+				</div>
+			</div><br>
+		</fieldset>
+
+		<div class="form-group">
+			<button type="submit" class="btn btn-primary">
+				Submit
+			</button>
+			<button type="reset" class="btn btn-outline-info">
+				Reset
+			</button>
+			<a href="{% url 'mic-characterization:mic-data-record-list' %}">
+				<button type="button" class="btn btn-outline-info">
+					Cancel
+				</button>
+			</a>
+		</div>
+	</form>
+	<br><br>
+{% endblock content %}

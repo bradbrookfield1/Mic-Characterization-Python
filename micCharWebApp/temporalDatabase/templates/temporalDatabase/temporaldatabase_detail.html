@@ -1,0 +1,193 @@
+{% extends "temporalDatabase/base.html" %}
+{% block dbChange %}
+	<a class="navbar-brand mr-4" href="{% url 'spectral:detail' pk=temporaldatabase.pk %}">
+		Temporal Database
+	</a>
+{% endblock dbChange %}
+{% block content %}
+	<h1>
+		Microphone Data Record Temporal Details
+	</h1>
+	<div class="row">
+		<div class="col">
+			Record Name: {{ object.record_Name }}
+		</div>
+	</div><br>
+	<div class="row">
+		<div class="col">
+			Record Description: {{ object.description }}
+		</div>
+	</div><br><br>
+	<h2>
+		Playback
+	</h2>
+	<div class="row">
+		<div class="col-md-6">
+			<h6>
+				True Signal:<br>
+				{{ true_Signal_File }}
+			</h6>
+		</div>
+		<div class="col-md-6">
+			<h6>
+				Measured Plain Signal:<br>
+				{{ measured_Signal_File }}
+			</h6>
+		</div>
+	</div>
+	<div class="row">
+		<div class="col-md-6">
+			Recording:<br>
+			<audio id="Player" controls>
+				<source src="/Uploads/Recordings/Original/true_Signal_File/{{ true_Signal_File }}" type="audio/wav">
+			</audio><br>
+			Harmonics:<br>
+			<audio id="Player" controls>
+				<source src="/Uploads/{{ true_Signal_Harmonics }}" type="audio/wav">
+			</audio><br>
+			Percussives:<br>
+			<audio id="Player" controls>
+				<source src="/Uploads/{{ true_Signal_Percussives }}" type="audio/wav">
+			</audio>
+		</div>
+		<div class="col-md-6">
+			Recording:<br>
+			<audio id="Player" controls>
+				<source src="/Uploads/Recordings/Original/measured_Signal_File/{{ measured_Signal_File }}" type="audio/wav">
+			</audio><br>
+			Harmonics:<br>
+			<audio id="Player" controls>
+				<source src="/Uploads/{{ measured_Signal_Harmonics }}" type="audio/wav">
+			</audio><br>
+			Percussives:<br>
+			<audio id="Player" controls>
+				<source src="/Uploads/{{ measured_Signal_Percussives }}" type="audio/wav">
+			</audio>
+		</div>
+	</div><br>
+	<div class="row">
+		<div class="col-md-6">
+			<h6>
+				Measured Noisy Signal:<br>
+				{{ noisy_Signal_File }}
+			</h6>
+		</div>
+		<div class="col-md-6">
+			<h6>
+				Measured Noise:<br>
+				{{ noise_File }}
+			</h6>
+		</div>
+	</div>
+	<div class="row">
+		<div class="col-md-6">
+			Recording:<br>
+			<audio id="Player" controls>
+				<source src="/Uploads/Recordings/Original/noisy_Signal_File/{{ noisy_Signal_File }}" type="audio/wav">
+			</audio><br>
+			Harmonics:<br>
+			<audio id="Player" controls>
+				<source src="/Uploads/{{ noisy_Signal_Harmonics }}" type="audio/wav">
+			</audio><br>
+			Percussives:<br>
+			<audio id="Player" controls>
+				<source src="/Uploads/{{ noisy_Signal_Percussives }}" type="audio/wav">
+			</audio>
+		</div>
+		<div class="col-md-6">
+			Recording:<br>
+			<audio id="Player" controls>
+				<source src="/Uploads/Recordings/Original/noise_File/{{ noise_File }}" type="audio/wav">
+			</audio><br>
+			Harmonics:<br>
+			<audio id="Player" controls>
+				<source src="/Uploads/{{ noise_Harmonics }}" type="audio/wav">
+			</audio><br>
+			Percussives:<br>
+			<audio id="Player" controls>
+				<source src="/Uploads/{{ noise_Percussives }}" type="audio/wav">
+			</audio>
+		</div>
+	</div><br>
+	<div class="row">
+		<div class="col">
+			<a href="{% url 'mic-characterization:mic-data-record-update' pk=temporaldatabase.pk %}">
+				<button class="btn btn-primary">
+					Update
+				</button>
+			</a>&nbsp;
+			<a href="{% url 'temporal:list' %}">
+				<button class="btn btn-outline-info">
+					Back
+				</button>
+			</a>&nbsp;
+			<a href="{% url 'mic-characterization:mic-data-record-confirm-delete' pk=temporaldatabase.pk %}">
+				<button class="btn btn-outline-info">
+					Delete
+				</button>
+			</a>&nbsp;
+			<a href="{% url 'temporal:detail-refreshed' pk=temporaldatabase.pk %}">
+				<button class="btn btn-outline-info">
+					Refresh
+				</button>
+			</a>
+		</div>
+	</div><br><br>
+{% endblock content %}
+{% block beneathsidebar %}
+	<h2>
+		Temporal Characteristics
+	</h2>
+	<div class="row">
+		<div class="col">
+			<center>
+				<img src="data:image/png;base64, {{ signal_Graph|safe }}" class="img-fluid">
+			</center>
+		</div>
+	</div><br>
+	<div class="row">
+		<div class="col-md">
+			<center>
+				<img src="data:image/png;base64, {{ cepstrum_Graph|safe }}" class="img-fluid">
+			</center>
+		</div>
+	</div><br>
+	<div class="row">
+		<div class="col-md">
+			<center>
+				<img src="data:image/png;base64, {{ hilbert_Phase_Graph|safe }}" class="img-fluid">
+			</center>
+		</div>
+	</div><br>
+	<div class="row">
+		<div class="col">
+			<center>
+				<img src="data:image/png;base64, {{ onset_Strength_Graph|safe }}" class="img-fluid">
+			</center>
+		</div>
+	</div><br>
+	<div class="row">
+		<div class="col-md-6">
+			<center>
+				<img src="data:image/png;base64, {{ lag_Autocorrelation_Graph|safe }}" class="img-fluid">
+			</center>
+		</div>
+		<div class="col-md-6">
+			<center>
+				<img src="data:image/png;base64, {{ BPM_Autocorrelation_Graph|safe }}" class="img-fluid">
+			</center>
+		</div>
+	</div><br>
+	<div class="row">
+		<div class="col-md-6">
+			<center>
+				<img src="data:image/png;base64, {{ autocorrelation_Tempogram|safe }}" class="img-fluid">
+			</center>
+		</div>
+		<div class="col-md-6">
+			<center>
+				<img src="data:image/png;base64, {{ fourier_Tempogram|safe }}" class="img-fluid">
+			</center>
+		</div>
+	</div><br><br>
+{% endblock beneathsidebar %}
